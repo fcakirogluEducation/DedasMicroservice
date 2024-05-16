@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Clean.Domain;
 
 namespace Clean.Service
 {
-    public interface ICacheService
+    public interface IProductService
     {
-        T? Get<T>(string key);
-        void Set<T>(string key, T value);
+        void AddProduct(ProductCreateRequestDto request);
+
+        List<ProductDto> GetProduct();
     }
 }

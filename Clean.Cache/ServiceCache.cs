@@ -1,17 +1,19 @@
-﻿using Clean.Service;
+﻿using Clean.Domain;
+using Clean.Service;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Clean.Cache
 {
-    public class ServiceCache : ICacheService
+    public class ServiceCache(IMemoryCache cache) : ICacheService
     {
-        public T Get<T>(string key)
+        public T? Get<T>(string key)
         {
-            throw new NotImplementedException();
+            return cache.Get<T>(key);
         }
 
         public void Set<T>(string key, T value)
         {
-            throw new NotImplementedException();
+            cache.Set(key, value);
         }
     }
 }
