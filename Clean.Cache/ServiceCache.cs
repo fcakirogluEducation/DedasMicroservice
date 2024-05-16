@@ -15,5 +15,10 @@ namespace Clean.Cache
         {
             cache.Set(key, value);
         }
+
+        public void Clear(string key)
+        {
+            cache.Remove(key);
+        }
     }
 }

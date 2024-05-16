@@ -13,6 +13,8 @@ namespace Clean.Service
         public void AddProduct(ProductCreateRequestDto request)
         {
             productService.AddProduct(request);
+
+            cacheService.Clear("productList");
         }
 
         public List<ProductDto> GetProduct()
