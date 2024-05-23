@@ -16,6 +16,12 @@ var connectionFactory = new ConnectionFactory()
 
 using var connection = connectionFactory.CreateConnection();
 using var channel = connection.CreateModel();
+channel.BasicQos(0, 1, true);
+
+channel.QueueDeclare("demo-topic-queue", true, false, false, null);
+
+channel.QueueBind("demo-topic-queue", "demo-topic", "a.*.c", null);
+
 
 var consumer = new EventingBasicConsumer(channel);
 
@@ -25,6 +31,17 @@ consumer.Received += (sender, eventArgs) =>
 {
     try
     {
+        var header = eventArgs.BasicProperties.Headers;
+
+        if (header is not null)
+        {
+            string messageVersion = Encoding.UTF8.GetString((byte[])header["version"]);
+
+
+            Console.WriteLine(messageVersion);
+        }
+
+
         var messageAsJson = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
 
         var userCreatedEvent = System.Text.Json.JsonSerializer.Deserialize<UserCreatedEvent>(messageAsJson);
@@ -41,6 +58,6 @@ consumer.Received += (sender, eventArgs) =>
     }
 };
 
-channel.BasicConsume("demo-queue", autoAck: false, consumer);
+channel.BasicConsume("demo-topic-queue", autoAck: false, consumer);
 
 Console.ReadKey();

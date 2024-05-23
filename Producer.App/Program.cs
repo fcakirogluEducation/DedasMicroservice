@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System.Globalization;
 using System.Text;
 using Producer.App;
 using RabbitMQ.Client;
@@ -14,22 +15,56 @@ var connectionFactory = new ConnectionFactory()
 using var connection = connectionFactory.CreateConnection();
 using var channel = connection.CreateModel();
 
+channel.BasicReturn += (sender, eventArgs) =>
+{
+    Console.WriteLine($"Mesaj gönderilemedi.");
+
+    var messageAsJson = Encoding.UTF8.GetString(eventArgs.Body.ToArray());
+    Console.WriteLine(messageAsJson);
+};
+channel.CallbackException += (sender, eventArgs) => { Console.WriteLine($"Mesaj gönderilemedi."); };
+
+channel.BasicAcks += (sender, eventArgs) => { Console.WriteLine($"Mesaj gönderildi."); };
+
 channel.ConfirmSelect();
-channel.QueueDeclare("demo-queue", durable: true, exclusive: false, autoDelete: false, arguments: null);
+
+channel.ExchangeDeclare("demo-topic", ExchangeType.Topic, true, false, null);
 
 
-//var message = "Message 1";
-//var body = Encoding.UTF8.GetBytes(message);
+Enumerable.Range(1, 20).ToList().ForEach(x =>
+{
+    string routeKey = string.Empty;
 
-var message = new UserCreatedEvent(1, "ahmet@outlook.com", "555 555 55 55");
-// method1(message)
+    if (x % 2 == 0)
+    {
+        routeKey = "a.b.c";
+    }
+    else
+    {
+        routeKey = "a.e.f";
+    }
 
-var body = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(message));
+
+    var message = new UserCreatedEvent(x, "ahmet@outlook.com", "555 555 55 55");
+    // method1(message)
+
+    var body = Encoding.UTF8.GetBytes(System.Text.Json.JsonSerializer.Serialize(message));
 
 
-channel.BasicPublish(string.Empty, "demo-queue", mandatory: false, null, body);
+    var properties = channel.CreateBasicProperties();
+    properties.Persistent = true;
+    properties.Headers = new Dictionary<string, object>()
+    {
+        { "event-type", "user-created" },
+        { "event-date", DateTime.Now.ToString(CultureInfo.InvariantCulture) },
+        { "version", "V1" }
+    };
 
-channel.WaitForConfirms(TimeSpan.FromSeconds(5));
+
+    channel.BasicPublish("demo-topic", routeKey, mandatory: true, properties, body);
+
+    channel.WaitForConfirms(TimeSpan.FromSeconds(5));
+});
 
 
 Console.WriteLine("Mesajlar gönderildi.");
