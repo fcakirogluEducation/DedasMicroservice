@@ -14,7 +14,6 @@ var connectionFactory = new ConnectionFactory()
 
 using var connection = connectionFactory.CreateConnection();
 using var channel = connection.CreateModel();
-
 channel.BasicReturn += (sender, eventArgs) =>
 {
     Console.WriteLine($"Mesaj gönderilemedi.");
