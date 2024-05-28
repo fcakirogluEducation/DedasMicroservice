@@ -1,5 +1,7 @@
 using Bus.Shared;
+using Microsoft.EntityFrameworkCore;
 using Order.API;
+using Order.API.Models;
 using RabbitMQ.Client;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +13,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+builder.Services.AddDbContext<AppDbContext>(options => { options.UseInMemoryDatabase("inmemorydb"); });
+//builder.Services.AddDbContextPool<Appd>()
 
 builder.Services.AddScoped<OrderService>();
 builder.Services.AddScoped<IBusService, BusService>();

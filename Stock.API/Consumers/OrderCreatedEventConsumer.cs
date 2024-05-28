@@ -44,6 +44,7 @@ namespace Stock.API.Consumers
                 var orderCreatedEvent = JsonSerializer.Deserialize<OrderCreatedEvent>(messageAsByte);
 
 
+                _channel!.BasicAck(args.DeliveryTag, true);
                 logger.LogInformation($"stock reserved. {orderCreatedEvent!.OrderId}");
             };
 
