@@ -6,7 +6,11 @@ using OrderItem = Order.API.Models.OrderItem;
 
 namespace Order.API
 {
-    public class OrderService(IBusService busService, AppDbContext contex, IPublishEndpoint publishEndpoint)
+    public class OrderService(
+        IBusService busService,
+        AppDbContext contex,
+        IPublishEndpoint publishEndpoint,
+        ISendEndpointProvider sendEndpointProvider)
     {
         public async Task OrderCrete()
         {
@@ -74,7 +78,23 @@ namespace Order.API
                     new(1, 1),
                     new(2, 2)
                 ]);
-            await publishEndpoint.Publish(orderCreatedEvent);
+
+
+            var tokenSource = new CancellationTokenSource(5000);
+
+
+            var sendEndpoint =
+                await sendEndpointProvider.GetSendEndpoint(new Uri("queue:payment2.order.created.event"));
+
+            //publisher ack=false;
+            await sendEndpoint.Send(new PaymentStartingMessage() { Id = Guid.NewGuid().ToString() }, pipe =>
+            {
+                pipe.Durable = true;
+                pipe.SetAwaitAck(true);
+                pipe.CorrelationId = Guid.NewGuid();
+            }, tokenSource.Token);
+
+            await publishEndpoint.Publish(orderCreatedEvent, tokenSource.Token);
         }
     }
 }

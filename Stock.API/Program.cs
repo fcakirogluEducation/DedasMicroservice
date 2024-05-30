@@ -14,16 +14,32 @@ builder.Services.AddHostedService<OrderCreatedEventConsumer>();
 builder.Services.AddMassTransit(x =>
 {
     x.AddConsumer<OrderCreatedEventConsumerWithMassTransit>();
+    x.AddConsumer<PaymentStartingMessageConsumer>();
     x.UsingRabbitMq((context, config) =>
     {
         config.Host(new Uri(builder.Configuration.GetConnectionString("RabbitMQ")!), host => { });
+
+        config.UseMessageRetry(r => r.Immediate(5));
+        config.UseMessageRetry(r => r.Interval(5, TimeSpan.FromSeconds(5)));
+
+
+        config.UseDelayedRedelivery(r => r.Intervals(TimeSpan.FromMinutes(5), TimeSpan.FromMinutes(15),
+            TimeSpan.FromMinutes(30), TimeSpan.FromMinutes(45)));
+
+        config.UseInMemoryOutbox(context);
 
 
         config.ReceiveEndpoint("stock.order.created.queue",
             configureEndpoint =>
             {
+                // configureEndpoint.ConcurrentMessageLimit = 3;
+
                 configureEndpoint.ConfigureConsumer<OrderCreatedEventConsumerWithMassTransit>(context);
             });
+
+
+        config.ReceiveEndpoint("payment2.order.created.event",
+            configureEndpoint => { configureEndpoint.ConfigureConsumer<PaymentStartingMessageConsumer>(context); });
     });
 });
 

@@ -9,6 +9,8 @@ namespace Stock.API.Consumers
     {
         public Task Consume(ConsumeContext<OrderCreatedEvent> context)
         {
+
+            
             using var scope = serviceScope.CreateScope();
             // scope.ServiceProvider.GetRequiredService<AppDbContext>()
 
