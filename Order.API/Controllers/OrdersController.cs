@@ -7,9 +7,9 @@ namespace Order.API.Controllers
     public class OrdersController(OrderService orderService) : ControllerBase
     {
         [HttpPost]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            orderService.OrderCrete();
+            await orderService.OrderCreate2();
 
             return Created();
         }

@@ -1,3 +1,4 @@
+using MassTransit;
 using RabbitMQ.Client;
 using Stock.API.Consumers;
 
@@ -10,7 +11,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHostedService<OrderCreatedEventConsumer>();
+builder.Services.AddMassTransit(x =>
+{
+    x.AddConsumer<OrderCreatedEventConsumerWithMassTransit>();
+    x.UsingRabbitMq((context, config) =>
+    {
+        config.Host(new Uri(builder.Configuration.GetConnectionString("RabbitMQ")!), host => { });
 
+
+        config.ReceiveEndpoint("stock.order.created.queue",
+            configureEndpoint =>
+            {
+                configureEndpoint.ConfigureConsumer<OrderCreatedEventConsumerWithMassTransit>(context);
+            });
+    });
+});
 
 builder.Services.AddSingleton(sp =>
 {

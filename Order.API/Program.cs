@@ -1,4 +1,5 @@
 using Bus.Shared;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Order.API;
 using Order.API.Models;
@@ -33,6 +34,15 @@ builder.Services.AddSingleton(sp =>
 
     channel.ExchangeDeclare(BusConst.OrderCreatedEventExchange, ExchangeType.Fanout, true, false, null);
     return channel;
+});
+
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, config) =>
+    {
+        config.Host(new Uri(builder.Configuration.GetConnectionString("RabbitMQ")!), host => { });
+    });
 });
 
 
