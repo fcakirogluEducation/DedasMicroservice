@@ -11,3 +11,10 @@ services:
     build:
       context: .
       dockerfile: Microservice2/Dockerfile
+  sql_db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+  sql_db_volume:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+volumes:
+ db_volume:
+ uploads:

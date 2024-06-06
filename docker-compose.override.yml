@@ -2,12 +2,20 @@ version: '3.4'
 
 services:
   microservice1:
+    user: root
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_HTTP_PORTS=8080
       - Services:MicroService2BaseUrl=http://microservice2:8080
     ports:
       - "5000:8080"
+    # volumes:
+    #  - type: bind
+    #    source: C:\uploads
+    #    target: /app/wwwroot/uploads
+    volumes:
+     - uploads:/app/wwwroot/uploads 
+     # - c:/uploads:/app/wwwroot/uploads 
 
   microservice2:
     environment:
@@ -15,4 +23,22 @@ services:
       - ASPNETCORE_HTTP_PORTS=8080
     ports:
       - "5002:8080"
+  sql_db:
+    user: root
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password123*
+    ports:
+      - "1433:1433"
+    volumes:
+      - c:/sql_db:/var/opt/mssql/data 
+  sql_db_volume:
+    user: root
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password123*
+    ports:
+      - "1445:1433"
+    volumes:
+      - db_volume:/var/opt/mssql/data
   
