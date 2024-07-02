@@ -21,11 +21,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bus.Shared", "Bus.Shared\Bu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{586BC546-2174-4641-8D45-8AE3FC1781A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microservice1", "Microservice1\Microservice1.csproj", "{148FE634-566B-443A-BFC9-671450D964B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microservice1", "Microservice1\Microservice1.csproj", "{148FE634-566B-443A-BFC9-671450D964B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microservice2", "Microservice2\Microservice2.csproj", "{C53CA9E2-901A-42C1-9D86-CED415381DBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microservice2", "Microservice2\Microservice2.csproj", "{C53CA9E2-901A-42C1-9D86-CED415381DBD}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{96C9E355-E7F0-4AFE-BCFC-16BD9A26BF40}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OpenTelemetry", "OpenTelemetry", "{B3210E9B-089F-4B5C-B2D6-9E9BFD5F9FF1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenTelemetry.Console", "OpenTelemetry.Console\OpenTelemetry.Console.csproj", "{C07D835C-9ECE-4AD2-B9F9-C7F071CB234A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenTelemetry.OneMicroservice", "OpenTelemetry.OneMicroservice\OpenTelemetry.OneMicroservice.csproj", "{6ABC7795-77A2-4075-8591-3326D08E1B13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +75,14 @@ Global
 		{96C9E355-E7F0-4AFE-BCFC-16BD9A26BF40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96C9E355-E7F0-4AFE-BCFC-16BD9A26BF40}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96C9E355-E7F0-4AFE-BCFC-16BD9A26BF40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C07D835C-9ECE-4AD2-B9F9-C7F071CB234A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C07D835C-9ECE-4AD2-B9F9-C7F071CB234A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C07D835C-9ECE-4AD2-B9F9-C7F071CB234A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C07D835C-9ECE-4AD2-B9F9-C7F071CB234A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6ABC7795-77A2-4075-8591-3326D08E1B13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6ABC7795-77A2-4075-8591-3326D08E1B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6ABC7795-77A2-4075-8591-3326D08E1B13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6ABC7795-77A2-4075-8591-3326D08E1B13}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +95,8 @@ Global
 		{DF392B20-B744-4A72-AD91-82D857EFCB8B} = {97EDF1AD-634B-4523-8CAD-0B47E7CD4DD4}
 		{148FE634-566B-443A-BFC9-671450D964B4} = {586BC546-2174-4641-8D45-8AE3FC1781A0}
 		{C53CA9E2-901A-42C1-9D86-CED415381DBD} = {586BC546-2174-4641-8D45-8AE3FC1781A0}
+		{C07D835C-9ECE-4AD2-B9F9-C7F071CB234A} = {B3210E9B-089F-4B5C-B2D6-9E9BFD5F9FF1}
+		{6ABC7795-77A2-4075-8591-3326D08E1B13} = {B3210E9B-089F-4B5C-B2D6-9E9BFD5F9FF1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5C4494B2-B70E-41FD-AE28-A5A66B87DD3E}

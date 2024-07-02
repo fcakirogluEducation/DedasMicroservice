@@ -1,0 +1,6 @@
+@OpenTelemetry.OneMicroservice_HostAddress = http://localhost:5130
+
+GET {{OpenTelemetry.OneMicroservice_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
