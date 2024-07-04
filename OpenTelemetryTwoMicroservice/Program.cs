@@ -1,5 +1,4 @@
 using OpenTelemetry;
-using OpenTelemetry.OneMicroservice.Services;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 
@@ -13,14 +12,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddHttpClient<StockService>(options => { options.BaseAddress = new Uri("https://localhost:7266"); });
-
-
 builder.Services.AddOpenTelemetry().WithTracing(options =>
 {
-    options.AddSource("One.Microservice.Activity.Source").ConfigureResource(cr =>
+    options.AddSource("Two.Microservice.Activity.Source").ConfigureResource(cr =>
     {
-        cr.AddService("One.Microservice", serviceVersion: "1.0.0").AddAttributes(
+        cr.AddService("Two.Microservice", serviceVersion: "1.0.0").AddAttributes(
             new List<KeyValuePair<string, object>>()
             {
                 new KeyValuePair<string, object>("env", builder.Environment.EnvironmentName)
@@ -32,10 +28,6 @@ builder.Services.AddOpenTelemetry().WithTracing(options =>
 
 
         options.RecordException = true;
-        options.EnrichWithHttpRequest += ((activity, request) =>
-        {
-            activity.SetTag("header.isHttp", request.IsHttps);
-        });
     });
 }).UseOtlpExporter();
 

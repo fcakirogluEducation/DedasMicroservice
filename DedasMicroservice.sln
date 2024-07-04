@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenTelemetry.Console", "Op
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenTelemetry.OneMicroservice", "OpenTelemetry.OneMicroservice\OpenTelemetry.OneMicroservice.csproj", "{6ABC7795-77A2-4075-8591-3326D08E1B13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenTelemetryTwoMicroservice", "OpenTelemetryTwoMicroservice\OpenTelemetryTwoMicroservice.csproj", "{1FEC5907-A53A-4000-93EB-1098AF716842}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{6ABC7795-77A2-4075-8591-3326D08E1B13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6ABC7795-77A2-4075-8591-3326D08E1B13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6ABC7795-77A2-4075-8591-3326D08E1B13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FEC5907-A53A-4000-93EB-1098AF716842}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FEC5907-A53A-4000-93EB-1098AF716842}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FEC5907-A53A-4000-93EB-1098AF716842}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FEC5907-A53A-4000-93EB-1098AF716842}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +103,7 @@ Global
 		{C53CA9E2-901A-42C1-9D86-CED415381DBD} = {586BC546-2174-4641-8D45-8AE3FC1781A0}
 		{C07D835C-9ECE-4AD2-B9F9-C7F071CB234A} = {B3210E9B-089F-4B5C-B2D6-9E9BFD5F9FF1}
 		{6ABC7795-77A2-4075-8591-3326D08E1B13} = {B3210E9B-089F-4B5C-B2D6-9E9BFD5F9FF1}
+		{1FEC5907-A53A-4000-93EB-1098AF716842} = {B3210E9B-089F-4B5C-B2D6-9E9BFD5F9FF1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5C4494B2-B70E-41FD-AE28-A5A66B87DD3E}

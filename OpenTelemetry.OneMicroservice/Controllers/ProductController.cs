@@ -1,16 +1,30 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OpenTelemetry.OneMicroservice.Services;
 
 namespace OpenTelemetry.OneMicroservice.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductController(StockService stockService) : ControllerBase
     {
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok("Get all products");
+            var a = new AService();
+            a.Calculate(2, 5);
+
+            Activity.Current?.SetTag("main activity", "value");
+
+
+            Activity.Current?.SetBaggage("user.name", "ahmet16");
+
+
+            var stockResponse = await stockService.GetStock();
+
+
+            return Ok($"Get all products, stock response : {stockResponse}");
         }
 
         [HttpGet("{id}")]
