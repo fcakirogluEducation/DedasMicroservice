@@ -1,3 +1,5 @@
+using MassTransit;
+using MassTransit.Logging;
 using OpenTelemetry;
 using OpenTelemetry.OneMicroservice.Services;
 using OpenTelemetry.Resources;
@@ -16,16 +18,26 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient<StockService>(options => { options.BaseAddress = new Uri("https://localhost:7266"); });
 
 
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, config) =>
+    {
+        config.Host(new Uri(builder.Configuration.GetConnectionString("RabbitMQ")!), host => { });
+    });
+});
+
+
 builder.Services.AddOpenTelemetry().WithTracing(options =>
 {
-    options.AddSource("One.Microservice.Activity.Source").ConfigureResource(cr =>
-    {
-        cr.AddService("One.Microservice", serviceVersion: "1.0.0").AddAttributes(
-            new List<KeyValuePair<string, object>>()
-            {
-                new KeyValuePair<string, object>("env", builder.Environment.EnvironmentName)
-            });
-    });
+    options.AddSource(DiagnosticHeaders.DefaultListenerName).AddSource("One.Microservice.Activity.Source")
+        .ConfigureResource(cr =>
+        {
+            cr.AddService("One.Microservice", serviceVersion: "1.0.0").AddAttributes(
+                new List<KeyValuePair<string, object>>()
+                {
+                    new KeyValuePair<string, object>("env", builder.Environment.EnvironmentName)
+                });
+        });
     options.AddAspNetCoreInstrumentation(options =>
     {
         options.Filter += (httpContext) => httpContext.Request.Path.Value!.Contains("api");
