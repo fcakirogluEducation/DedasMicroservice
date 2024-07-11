@@ -12,5 +12,11 @@ namespace Products.API.Controllers
         {
             return Ok(new { isSuccess = true, Id = 10, Name = name });
         }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            return Ok(new { isSuccess = true });
+        }
     }
 }

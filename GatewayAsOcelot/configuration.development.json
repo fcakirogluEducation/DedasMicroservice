@@ -1,5 +1,24 @@
 ﻿{
   "Routes": [
+
+
+    {
+      "DownstreamPathTemplate": "/api/Products/Create{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7105
+        }
+      ],
+      "UpstreamPathTemplate": "/services/products-microservice/Create/{everything}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "UpstreamScheme": "https",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "create" ]
+      }
+    },
     {
       "DownstreamPathTemplate": "/api/Products/{everything}",
       "DownstreamScheme": "https",
@@ -11,8 +30,15 @@
       ],
       "UpstreamPathTemplate": "/services/products-microservice/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
-      "UpstreamScheme": "https"
+      "UpstreamScheme": "https",
+      "AuthenticationOptions": {
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": [ "microservice.products.scope" ]
+      }
     }
+
+ 
+
   ],
   "GlobalConfiguration": {
     "BaseUrl": "https://localhost:7017"
